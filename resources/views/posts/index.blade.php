@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Posts</h1>
+    <a style="margin-bottom: 25px;" class="btn btn-secondary" href="/posts/create" role="button">Nieuwe post</a>
     @if(count($posts) > 0)
         @foreach($posts as $post)
             <div class="card" style="margin-bottom: 25px;">
