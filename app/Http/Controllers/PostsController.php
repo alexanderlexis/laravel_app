@@ -28,11 +28,9 @@ class PostsController extends Controller
 
         $posts = Post::orderBy('created_at', 'desc')->paginate(10);
 
-        $data = array (
+        return view('posts.index', array(
             'posts' => $posts
-        );
-
-        return view('posts.index')->with($data);
+        ));
     }
 
     /**
@@ -42,7 +40,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -53,7 +51,18 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        // Create post
+        $post = new Post;
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->save();
+
+        return redirect('/posts')->with('success', 'Nieuwe post aangemaakt');
     }
 
     /**
@@ -66,11 +75,9 @@ class PostsController extends Controller
     {
         $post = Post::find($post_id);
 
-        $data = array (
+        return view('posts.show', array(
             'post' => $post
-        );
-
-        return view('posts.show')->with($data);
+        ));
     }
 
     /**
