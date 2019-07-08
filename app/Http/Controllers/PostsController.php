@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -60,6 +61,7 @@ class PostsController extends Controller
         $post = new Post;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        $post->user_id = auth()->user()->user_id;
         $post->save();
 
         return redirect('/posts')->with('success', 'Nieuwe post aangemaakt');
@@ -88,7 +90,11 @@ class PostsController extends Controller
      */
     public function edit($post_id)
     {
-        //
+        $post = Post::find($post_id);
+
+        return view('posts.edit', array(
+            'post' => $post
+        ));
     }
 
     /**
@@ -100,7 +106,20 @@ class PostsController extends Controller
      */
     public function update(Request $request, $post_id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        // Update existing post
+        $post = Post::find($post_id);
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        if($post->save()){
+            return redirect('/posts')->with('success', 'Post succesvol bewerkt');
+        } else {
+            return redirect('/posts')->with('error', 'Er ging iets fout');
+        }
     }
 
     /**
@@ -111,6 +130,12 @@ class PostsController extends Controller
      */
     public function destroy($post_id)
     {
-        //
+        $post = Post::find($post_id);
+        if($post->delete()){
+            return redirect('/posts')->with('success', 'Post succesvol verwijderd');
+        } else {
+            return redirect('/posts')->with('error', 'Er ging iets fout');
+        }
+
     }
 }
