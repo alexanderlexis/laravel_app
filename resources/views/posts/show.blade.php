@@ -6,7 +6,11 @@
         <div>
             <p>{!!$post->body!!}</p>
             <hr>
+            @if(isset($user['name']))
+            <small>Geschreven op {{$post->created_at}} door {{$user->name}}</small>
+            @else
             <small>Geschreven op {{$post->created_at}}</small>
+            @endif
             <hr>
             <a class="btn btn-outline-primary" href="/posts/{{$post->post_id}}/edit" role="button">Post bewerken</a>
             {!!Form::open(['action' => ['PostsController@destroy', $post->post_id], 'method' => 'POST', 'class' => 'float-right'])!!}

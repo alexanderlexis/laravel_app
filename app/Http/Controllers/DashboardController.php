@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
+use App\User;
+use DB;
+use Illuminate\Support\Facades\App;
 
 class DashboardController extends Controller
 {
@@ -23,6 +27,16 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+//        $posts = Post::where('user_id', auth()->user()->user_id)
+//            ->orderBy('created_at', 'desc')
+//            ->get();
+
+        $user = User::find(auth()->user()->user_id);
+        $posts = $user->posts;
+
+
+        return view('dashboard', array(
+            'posts' => $posts
+        ));
     }
 }

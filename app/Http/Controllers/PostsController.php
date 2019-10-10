@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Post;
 use DB;
@@ -27,7 +28,7 @@ class PostsController extends Controller
 
 //        $post = Post::where('title', 'zoek hier naar titel');
 
-        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(5);
 
         return view('posts.index', array(
             'posts' => $posts
@@ -35,7 +36,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource.dd
      *
      * @return \Illuminate\Http\Response
      */
@@ -76,9 +77,11 @@ class PostsController extends Controller
     public function show($post_id)
     {
         $post = Post::find($post_id);
+        $user = User::find($post->user_id);
 
         return view('posts.show', array(
-            'post' => $post
+            'post' => $post,
+            'user' => $user
         ));
     }
 

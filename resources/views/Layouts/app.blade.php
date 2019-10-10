@@ -20,7 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    {{--<div id="app">--}}
         @include('inc.navbar')
         <div class="container">
             <main class="py-4">
@@ -28,10 +28,10 @@
                 @yield('content')
             </main>
         </div>
-    </div>
-    {{--<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>--}}
-    {{--<script>--}}
-        {{--CKEDITOR.replace( 'article-ckeditor' );--}}
-    {{--</script>--}}
-{{--</body>--}}
+    {{--</div>--}}
+    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'article-ckeditor' );
+    </script>
+</body>
 </html>
